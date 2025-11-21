@@ -1,5 +1,5 @@
 Flask==2.3.3
 google-genai==1.52.0
 python-dotenv==1.2.1
-guniorn
+guniorn==21.2.0
 
