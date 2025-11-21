@@ -1,0 +1,4 @@
+Flask==2.3.3
+google-genai==0.19.1
+python-dotenv==1.2.1
+

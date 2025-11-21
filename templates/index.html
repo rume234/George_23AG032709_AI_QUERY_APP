@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Query App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Query App</h1>
+        <p>Ask a question and get an answer from the AI!</p>
+
+        <div class="form-container">
+            <textarea id="question" placeholder="Type your question here..."></textarea>
+            <button id="askBtn">Ask AI</button>
+        </div>
+
+        <div id="response-container">
+            <h2>Answer:</h2>
+            <p id="answer"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('askBtn').addEventListener('click', async () => {
+            const question = document.getElementById('question').value;
+            if (!question) return alert("Please type a question!");
+
+            const responseEl = document.getElementById('answer');
+            responseEl.textContent = "Thinking...";
+
+            try {
+                const res = await fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+
+                const data = await res.json();
+                if (data.error) {
+                    responseEl.textContent = "Error: " + data.error;
+                } else {
+                    responseEl.textContent = data.answer;
+                }
+            } catch (err) {
+                responseEl.textContent = "Error connecting to server.";
+            }
+        });
+    </script>
+</body>
+</html>
